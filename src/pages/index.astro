@@ -1,19 +1,24 @@
 ---
-
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../sections/Hero.astro';
+import About from '../sections/About.astro';
+import Essentials from '../sections/Essentials.astro';
+import Skills from '../sections/Skills.astro';
+import Projects from '../sections/Projects.astro';
+import Experience from '../sections/Experience.astro';
+import Roadmap from '../sections/Roadmap.astro';
+import Learning from '../sections/Learning.astro';
+import Contact from '../sections/Contact.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/lgv1.svg" />
-		<link rel="icon" href="/lgv1.svg" />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Axel Acosta | Portfolio</title>
-	</head>
-	<body>
-	</body>
-</html>
+<MainLayout>
+	<Hero />
+	<About />
+	<Essentials />
+	<Skills />
+	<Projects />
+	<Experience />
+	<Roadmap />
+	<Learning />
+	<Contact />
+</MainLayout>
