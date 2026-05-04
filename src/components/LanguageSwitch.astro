@@ -8,13 +8,75 @@ const { lang = 'en' } = Astro.props;
 
 <button
         type="button"
-        class="lang-switch group relative flex items-center rounded-full border border-slate-200 bg-slate-50 p-0.5 shadow-sm"
+        id="language-switch"
+        class="lang-switch group relative flex items-center rounded-full border border-slate-200 bg-slate-50 p-0.5 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-300"
+        role="switch"
+        aria-checked="false"
         aria-label="Switch language"
+        data-active="en"
 >
-    <span class="relative z-10 flex items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold text-white bg-slate-900">
-        EN
-    </span>
-    <span class="relative z-10 flex items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold text-slate-400">
-        ES
-    </span>
+    <span
+            id="lang-slider"
+            class="absolute top-0.5 left-0.5 h-[calc(100%-4px)] w-[calc(50%-2px)] rounded-full bg-slate-900 shadow-sm transition-all duration-500 ease-[cubic-bezier(0.65,0,0.35,1)]"
+            style="transform: translateX(0px);"
+    ></span>
+
+    <span
+            class="lang-option relative z-10 flex items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold text-white"
+            data-value="en"
+    >EN</span>
+
+    <span
+            class="lang-option relative z-10 flex items-center justify-center rounded-full px-3 py-1.5 text-xs font-semibold text-slate-400"
+            data-value="es"
+    >ES</span>
 </button>
+
+<div id="lang-transition-overlay" class="lang-overlay"></div>
+
+<script>
+    import { initI18n, applyLanguage, getCurrentLang } from '../scripts/i18n';
+    import type { Lang } from '../data/translations';
+
+    const switchBtn = document.getElementById('language-switch');
+    const overlay = document.getElementById('lang-transition-overlay');
+    const slider = document.getElementById('lang-slider');
+    const enOption = switchBtn?.querySelector('[data-value="en"]');
+    const esOption = switchBtn?.querySelector('[data-value="es"]');
+
+    switchBtn?.addEventListener('click', () => {
+        const currentLang = getCurrentLang();
+        const newLang: Lang = currentLang === 'en' ? 'es' : 'en';
+
+        // 1. Switch animation
+        if (slider) {
+            slider.style.transform = newLang === 'en' ? 'translateX(0px)' : 'translateX(100%)';
+        }
+
+        if (newLang === 'en') {
+            enOption?.classList.replace('text-slate-400', 'text-white');
+            esOption?.classList.replace('text-white', 'text-slate-400');
+        } else {
+            esOption?.classList.replace('text-slate-400', 'text-white');
+            enOption?.classList.replace('text-white', 'text-slate-400');
+        }
+
+        switchBtn?.setAttribute('data-active', newLang);
+        switchBtn?.setAttribute('aria-checked', newLang === 'es' ? 'true' : 'false');
+
+        // 2. Show overlay blur
+        if (overlay) overlay.classList.add('active');
+
+        // 3. Translate
+        setTimeout(() => {
+            applyLanguage(newLang);
+        }, 200);
+
+        // 4. Remove overlay
+        setTimeout(() => {
+            if (overlay) overlay.classList.remove('active');
+        }, 400);
+    });
+
+    initI18n();
+</script>

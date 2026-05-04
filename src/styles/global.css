@@ -152,3 +152,39 @@ body.modal-open {
     background: #000000;
     cursor: grabbing;
 }
+
+/* ============================================
+   LANGUAGE SWITCH
+   ============================================ */
+.lang-switch {
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lang-option {
+    cursor: pointer;
+    user-select: none;
+    min-width: 36px;
+}
+
+.lang-switch:active {
+    transform: scale(0.97);
+    transition: transform 0.15s ease;
+}
+
+.lang-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(15, 23, 42, 0.12);
+    backdrop-filter: blur(0px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lang-overlay.active {
+    backdrop-filter: blur(20px);
+    opacity: 1;
+}
